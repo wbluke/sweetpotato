@@ -20,7 +20,7 @@ const Test = () => {
 
     yahooFinance.quote({
       symbol: 'DHER.DE',
-      modules: ['price'] // see the docs for the full list
+      modules: ['price']
     }, function (err: any, quotes: any) {
       // console.log(err)
       console.log('DHER Price : ' + quotes.price.regularMarketPrice)
