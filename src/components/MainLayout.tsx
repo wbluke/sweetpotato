@@ -10,14 +10,16 @@ const useStyles = makeStyles({
 });
 
 const MainLayout = () => {
-  const classes = useStyles();
+  const styles = useStyles();
 
   return (
     <>
       <Container maxWidth="sm">
-        <div className={classes.mainComponent}>
-          <ShareInput />
-        </div>
+        <Container maxWidth="sm">
+          <div className={styles.mainComponent}>
+            <ShareInput />
+          </div>
+        </Container>
       </Container>
     </>
   );
