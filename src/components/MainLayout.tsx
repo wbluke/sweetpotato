@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import ShareInput from './ShareInput';
@@ -15,11 +15,11 @@ const MainLayout = () => {
   return (
     <>
       <Container maxWidth="sm">
-        <Container maxWidth="sm">
+        {/* <Grid container spacing={2}> */}
           <div className={styles.mainComponent}>
             <ShareInput />
           </div>
-        </Container>
+        {/* </Grid> */}
       </Container>
     </>
   );
