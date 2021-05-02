@@ -1,7 +1,8 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import ShareInput from './ShareInput';
+import BaseShare from "../shares/BaseShare";
+import ShareInput from '../shares/ShareInput';
 
 const useStyles = makeStyles({
   mainComponent: {
@@ -15,11 +16,10 @@ const MainLayout = () => {
   return (
     <>
       <Container maxWidth="sm">
-        {/* <Grid container spacing={2}> */}
-          <div className={styles.mainComponent}>
-            <ShareInput />
-          </div>
-        {/* </Grid> */}
+        <div className={styles.mainComponent}>
+          <ShareInput />
+          <BaseShare />
+        </div>
       </Container>
     </>
   );

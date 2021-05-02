@@ -13,10 +13,11 @@ const Test = () => {
     const axios = require("axios");
     const yahooFinance = require('yahoo-finance');
 
-    axios.get('https://api.manana.kr/exchange/rate/KRW/EUR.json').then(({ data }: AxiosResponse<IExchangeRate[]>) => {
-      console.log('Exchange Rate Date : ' + data[0].date);
-      console.log('Exchange Rate : ' + data[0].rate);
-    })
+    axios.get('https://api.manana.kr/exchange/rate/KRW/EUR.json')
+      .then(({ data }: AxiosResponse<IExchangeRate[]>) => {
+        console.log('Exchange Rate Date : ' + data[0].date);
+        console.log('Exchange Rate : ' + data[0].rate);
+      })
 
     yahooFinance.quote({
       symbol: 'DHER.DE',

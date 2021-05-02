@@ -29,8 +29,6 @@ const useStyles = makeStyles({
   }
 });
 
-const onSearch = (value: string) => console.log(value);
-
 const ShareInput = () => {
   const styles = useStyles();
 

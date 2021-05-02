@@ -1,6 +1,5 @@
 import React from 'react';
-import MainLayout from './components/MainLayout';
-import Test from './Test';
+import MainLayout from './components/layout/MainLayout';
 
 const App = () => {
   return (
