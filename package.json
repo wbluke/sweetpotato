@@ -2,14 +2,21 @@
   "name": "sweetpotato",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@material-ui/core": "^4.11.4",
+  "devDependencies": {
+    "@types/moment": "^2.13.0",
     "@types/node": "^12.20.7",
     "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
+    "@types/react-dom": "^17.0.3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@types/numeral": "^2.0.1",
     "axios": "^0.21.1",
+    "moment": "^2.29.1",
+    "numeral": "^2.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-moment": "^1.1.1",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.3",
     "web-vitals": "^1.1.1",
