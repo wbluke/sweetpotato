@@ -29,9 +29,10 @@ const useStyles = makeStyles({
   }
 });
 
-const ShareInput = () => {
+const StockInput = () => {
   const styles = useStyles();
 
+  // todo : 음수, 자릿수 4 체크 / TextField => error, helperText
   return (
     <>
       <Grid container spacing={1}>
@@ -60,4 +61,4 @@ const ShareInput = () => {
   );
 }
 
-export default ShareInput;
+export default StockInput;

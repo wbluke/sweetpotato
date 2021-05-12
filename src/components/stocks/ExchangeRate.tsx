@@ -9,7 +9,7 @@ interface IExchangeRate {
   rate: number
 }
 
-const BaseExchangeRate = () => {
+const ExchangeRate = () => {
   const [eurExchangeRate, setEurExchangeRate] = useState<IExchangeRate>({
     date: new Date(),
     rate: 0
@@ -37,10 +37,10 @@ const BaseExchangeRate = () => {
       <br />
       <Moment
         date={new Date(eurExchangeRate.date)}
-        format="yyyy년 M월 DD일 HH:mm 기준"
+        format="yyyy년 M월 D일 HH:mm 기준"
       />
     </>
   );
 }
 
-export default BaseExchangeRate;
+export default ExchangeRate;

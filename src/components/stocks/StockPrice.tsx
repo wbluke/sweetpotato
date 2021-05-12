@@ -12,8 +12,7 @@ interface IStockQuotes {
 
 const yahooFinance = require('yahoo-finance');
 
-const BaseShare = () => {
-
+const StockPrice = () => {
   const [dherStockQuotes, setDherStockQuotes] = useState<IStockQuotes>({
     price: {
       regularMarketChangePercent: 0,
@@ -43,14 +42,14 @@ const BaseShare = () => {
     <>
       현재 주가 : {dherStockQuotes.price.regularMarketPrice} €
       <br />
+      {numeral(dherStockQuotes.price.regularMarketChangePercent).format('0.00%')}
+      <br />
       <Moment
         date={dherStockQuotes.price.regularMarketTime}
-        format="yyyy년 M월 DD일 HH:mm 기준"
+        format="yyyy년 M월 D일 HH:mm 기준"
       />
-      <br />
-      {numeral(dherStockQuotes.price.regularMarketChangePercent).format('0.00%')}
     </>
   );
 }
 
-export default BaseShare;
+export default StockPrice;
