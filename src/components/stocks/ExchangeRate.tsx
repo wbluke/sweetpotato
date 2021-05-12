@@ -3,6 +3,7 @@ import numeral from 'numeral';
 import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import request from '../../utils/httpRequest';
+import { renderCommaDouble } from '../../utils/numberUtils';
 
 interface IExchangeRate {
   date: Date
@@ -33,7 +34,7 @@ const ExchangeRate = () => {
     <>
       <br />
       <br />
-      1€(유로) 당 {numeral(eurExchangeRate.rate).format('0.00')} 원
+      1€(유로) 당 {renderCommaDouble(eurExchangeRate.rate)} 원
       <br />
       <Moment
         date={new Date(eurExchangeRate.date)}
