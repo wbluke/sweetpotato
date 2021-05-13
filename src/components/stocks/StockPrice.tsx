@@ -40,6 +40,7 @@ const StockPrice = () => {
 
   return (
     <>
+      <br />
       현재 주가 : {dherStockQuotes.price.regularMarketPrice} €
       <br />
       {numeral(dherStockQuotes.price.regularMarketChangePercent).format('0.00%')}

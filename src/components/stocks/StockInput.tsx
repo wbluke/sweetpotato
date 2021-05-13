@@ -8,12 +8,6 @@ const useStyles = makeStyles({
     width: "100%",
     maxWidth: "300px",
     float: "right",
-    "&:hover": {
-      borderColor: () => '#8A2908'
-    },
-    "&:after": {
-      borderColor: () => '#8A2908'
-    }
   },
   button: {
     width: "100%",
@@ -29,7 +23,11 @@ const useStyles = makeStyles({
   }
 });
 
-const StockInput = () => {
+interface IStockInput {
+  setNumberOfStocks: (number: number) => void
+}
+
+const StockInput = ({ setNumberOfStocks }: IStockInput) => {
   const styles = useStyles();
 
   // todo : 음수, 자릿수 4 체크 / TextField => error, helperText

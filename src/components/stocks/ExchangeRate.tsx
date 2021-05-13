@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import numeral from 'numeral';
 import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import request from '../../utils/httpRequest';

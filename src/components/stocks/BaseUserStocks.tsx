@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Moment from 'react-moment';
 import { renderComma } from '../../utils/numberUtils';
 
@@ -10,7 +10,7 @@ const BaseUserStocks = ({ numberOfStocks }: IUserStocks) => {
   const baseStockPrice = 105.95;
   const baseExchangeRate = 1351;
   const baseWonPerStock = 143208;
-  const baseDate = '2021-03-02';
+  const baseDate = new Date('2021-03-02');
 
   return (
     <>
@@ -28,7 +28,7 @@ const BaseUserStocks = ({ numberOfStocks }: IUserStocks) => {
       )
       <br />
       <Moment
-        date={new Date(baseDate)}
+        date={baseDate}
         format="yyyy년 M월 D일 기준"
       />
     </>
