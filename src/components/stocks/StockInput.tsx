@@ -1,7 +1,7 @@
 import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
   textField: {
@@ -24,11 +24,37 @@ const useStyles = makeStyles({
 });
 
 interface IStockInput {
-  setNumberOfStocks: (number: number) => void
+  stocks: number
+  setStocks: (number: number) => void
 }
 
-const StockInput = ({ setNumberOfStocks }: IStockInput) => {
+const StockInput = ({ stocks, setStocks }: IStockInput) => {
   const styles = useStyles();
+
+  const [numberOfStocks, setNumberOfStocks] = useState<number>(stocks);
+
+  const onStockValue = (numberOfStocks: number) => {
+    return numberOfStocks > 0 ? numberOfStocks : '';
+  }
+
+  const onInputStocks = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const stockValue = parseInt(event.target.value);
+
+    setNumberOfStocks(stockValue);
+  }
+
+  const onClickStockButton = () => {
+    setStocks(numberOfStocks);
+    window.history.replaceState({}, '', "?stocks=" + numberOfStocks);
+  }
+
+  const refreshNumberOfStocks = useCallback(() => {
+    setNumberOfStocks(stocks);
+  }, [stocks]);
+
+  useEffect(() => {
+    refreshNumberOfStocks();
+  }, [stocks, refreshNumberOfStocks]);
 
   // todo : 음수, 자릿수 4 체크 / TextField => error, helperText
   return (
@@ -38,6 +64,8 @@ const StockInput = ({ setNumberOfStocks }: IStockInput) => {
         <Grid item xs={7}>
           <TextField
             className={styles.textField}
+            value={onStockValue(numberOfStocks)}
+            onChange={onInputStocks}
             label="심은 고구마 수"
             variant="outlined"
             size="small"
@@ -48,6 +76,7 @@ const StockInput = ({ setNumberOfStocks }: IStockInput) => {
         <Grid item xs={3}>
           <Button
             className={styles.button}
+            onClick={onClickStockButton}
             size="large"
           >
             ⛏️ 캐기

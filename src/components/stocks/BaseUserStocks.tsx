@@ -3,10 +3,10 @@ import Moment from 'react-moment';
 import { renderComma } from '../../utils/numberUtils';
 
 interface IUserStocks {
-  numberOfStocks: number
+  stocks: number
 }
 
-const BaseUserStocks = ({ numberOfStocks }: IUserStocks) => {
+const BaseUserStocks = ({ stocks }: IUserStocks) => {
   const baseStockPrice = 105.95;
   const baseExchangeRate = 1351;
   const baseWonPerStock = 143208;
@@ -16,7 +16,7 @@ const BaseUserStocks = ({ numberOfStocks }: IUserStocks) => {
     <>
       <br />
       <br />
-      {renderComma(numberOfStocks * baseWonPerStock)} 원
+      {renderComma(stocks * baseWonPerStock)} 원
       <br />
       기준 정보
       <br />
