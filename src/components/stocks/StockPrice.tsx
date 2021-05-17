@@ -1,6 +1,10 @@
 import numeral from 'numeral';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
+
+interface IStockPrice {
+  setStockPrice: (stockPrice: number) => void
+}
 
 interface IStockQuotes {
   price: {
@@ -12,7 +16,7 @@ interface IStockQuotes {
 
 const yahooFinance = require('yahoo-finance');
 
-const StockPrice = () => {
+const StockPrice = ({ setStockPrice }: IStockPrice) => {
   const [dherStockQuotes, setDherStockQuotes] = useState<IStockQuotes>({
     price: {
       regularMarketChangePercent: 0,
@@ -21,22 +25,23 @@ const StockPrice = () => {
     }
   });
 
-  const fetchFinance = () => {
+  const fetchFinance = useCallback(() => {
     yahooFinance.quote({
       symbol: 'DHER.DE',
       modules: ['price']
     }, (err: any, quotes: IStockQuotes) => {
       setDherStockQuotes(quotes)
+      setStockPrice(quotes.price.regularMarketPrice);
       console.log(quotes);
       console.log('DHER Price : ' + quotes.price.regularMarketPrice)
       console.log('DHER Price Time : ' + quotes.price.regularMarketTime.toString()) // Date type
       console.log('DHER last percent : ' + quotes.price.regularMarketChangePercent)
     });
-  }
+  }, [setStockPrice]);
 
   useEffect(() => {
     fetchFinance();
-  }, []);
+  }, [fetchFinance]);
 
   return (
     <>

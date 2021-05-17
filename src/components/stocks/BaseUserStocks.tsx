@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Moment from 'react-moment';
-import { renderComma } from '../../utils/numberUtils';
+import { renderComma, roundFloat } from '../../utils/numberUtils';
 
 interface IUserStocks {
   stocks: number
+  setBaseUserStocksValue: (baseUserStocksValue: number) => void
 }
 
-const BaseUserStocks = ({ stocks }: IUserStocks) => {
+const BaseUserStocks = ({ stocks, setBaseUserStocksValue }: IUserStocks) => {
   const baseStockPrice = 105.95;
   const baseExchangeRate = 1351;
   const baseWonPerStock = 143208;
   const baseDate = new Date('2021-03-02');
+
+  const setBaseStocksValue = useCallback(() => {
+    setBaseUserStocksValue(roundFloat(stocks * baseWonPerStock));
+  }, [stocks, baseWonPerStock, setBaseUserStocksValue]);
+
+  useEffect(() => {
+    setBaseStocksValue();
+  }, [setBaseStocksValue]);
 
   return (
     <>
