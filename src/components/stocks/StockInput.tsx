@@ -53,6 +53,12 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
     setNumberOfStocks(stockValue);
   }
 
+  const onInputKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      onClickStockButton();
+    }
+  }
+
   const onClickStockButton = () => {
     if (error) {
       return;
@@ -86,6 +92,7 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
             type="number"
             error={error}
             helperText={error ? "최대 4자리 숫자로 입력해 주세요" : ""}
+            onKeyDown={onInputKeyDown}
           />
         </Grid>
         <Grid item xs={3}>
