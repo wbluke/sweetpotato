@@ -5,7 +5,7 @@ import MainStockCalculator from "../stocks/MainStockCalculator";
 
 const useStyles = makeStyles({
   mainComponent: {
-    marginTop: '200px'
+    marginTop: '4rem'
   },
 });
 

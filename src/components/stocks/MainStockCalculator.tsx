@@ -5,8 +5,16 @@ import ExchangeRate from './ExchangeRate';
 import StockInput from './StockInput';
 import StockPrice from './StockPrice';
 import StocksCurrentState from './StocksCurrentState';
+import logo from '../../images/woowa_sweet_potato_logo.png';
 
 const useStyles = makeStyles(theme => ({
+  logoLayout: {
+    paddingBottom: '1rem',
+  },
+  logo: {
+    width: '10rem',
+    paddingBottom: '3rem',
+  },
   basicStyles: {
     fontFamily: 'GmarketSans Medium',
     fontSize: '1.2rem',
@@ -42,6 +50,23 @@ const MainStockCalculator = () => {
 
   return (
     <>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+      >
+        <Grid item xs={1} />
+        <Grid item xs={10}>
+          <img
+            className={styles.logo}
+            src={logo}
+          />
+        </Grid>
+        <Grid item xs={1} />
+      </Grid>
+
       <StockInput
         stocks={stocks}
         setStocks={setStocks}
