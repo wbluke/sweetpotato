@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
-import { renderPercentWithSign } from '../../utils/numberUtils';
+import { renderPercentWithSign, renderZeroToDash } from '../../utils/numberUtils';
 
 interface IStockPrice {
   setStockPrice: (stockPrice: number) => void
@@ -76,13 +76,13 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
     <>
       <BlockTitle title="실시간 주가" />
       <span className={styles.stockPrice}>
-        {dherStockQuotes.price.regularMarketPrice} €
+        {renderZeroToDash(dherStockQuotes.price.regularMarketPrice)} €
         <span className={styles.stockPriceUnit}>
           {' (유로)'}
         </span>
       </span>
       <div className={styles.stockPriceRatio}>
-        {renderPercentWithSign(dherStockQuotes.price.regularMarketChangePercent)}
+        {renderPercentWithSign(renderZeroToDash(dherStockQuotes.price.regularMarketChangePercent))}
       </div>
       <div className={styles.stockPriceDate}>
         <Moment

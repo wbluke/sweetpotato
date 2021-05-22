@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
 import request from '../../utils/httpRequest';
-import { renderCommaFloat, roundFloat } from '../../utils/numberUtils';
+import { renderCommaFloat, renderZeroToDash, roundFloat } from '../../utils/numberUtils';
 
 interface IExchangeRate {
   setExchangeRate: (exchangeRate: number) => void
@@ -60,7 +60,7 @@ const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
         {'1€(유로) 당 '}
       </span>
       <span className={styles.exchangeRate}>
-        {renderCommaFloat(eurExchangeRate.rate)}
+        {renderCommaFloat(renderZeroToDash(eurExchangeRate.rate))}
         <span className={styles.exchangeRateUnit}>
           {' 원'}
         </span>

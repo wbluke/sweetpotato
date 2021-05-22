@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import BlockTitle from '../../common/BlockTitle';
-import { renderComma, renderCommaWithSign } from '../../utils/numberUtils';
+import { renderComma, renderCommaWithSign, renderZeroToDash } from '../../utils/numberUtils';
 
 interface IStocksCurrentState {
   stocks: number
@@ -61,7 +61,7 @@ const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksVa
     <>
       <BlockTitle title="현재 자산" />
       <span className={styles.currentStocksValueAmounts}>
-        {renderComma(calculateCurrentStocksValue())}
+        {renderComma(renderZeroToDash(calculateCurrentStocksValue()))}
       </span>
       {' 원'}
 
@@ -70,7 +70,7 @@ const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksVa
           {'기준 정보 대비'}
         </span>
         <span className={styles.differenceAmounts}>
-          {renderCommaWithSign(calculateDifference())}
+          {renderCommaWithSign(renderZeroToDash(calculateDifference()))}
         </span>
         <span className={styles.differenceUnit}>
           {' 원'}
