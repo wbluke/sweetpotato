@@ -1,6 +1,10 @@
+import { makeStyles } from '@material-ui/core';
 import numeral from 'numeral';
 import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
+import BlockTitle from '../../common/BlockTitle';
+import HorizonLine from '../../common/HorizonLine';
+import { renderPercentWithSign } from '../../utils/numberUtils';
 
 interface IStockPrice {
   setStockPrice: (stockPrice: number) => void
@@ -13,6 +17,33 @@ interface IStockQuotes {
     regularMarketChangePercent: number
   }
 }
+
+interface IStockPriceStyleProps {
+  stockPriceRatio: number
+}
+
+const useStyles = makeStyles({
+  stockPrice: {
+    fontSize: '1.4rem',
+  },
+  stockPriceUnit: {
+    fontSize: '1rem',
+  },
+  stockPriceRatio: {
+    fontSize: '1.1rem',
+    marginTop: '0.4rem',
+    color: (props: IStockPriceStyleProps) => {
+      return props.stockPriceRatio >= 0
+        ? 'red'
+        : 'blue';
+    },
+  },
+  stockPriceDate: {
+    fontSize: '0.9rem',
+    color: '#4D4D4D',
+    marginTop: '0.4rem',
+  },
+});
 
 const yahooFinance = require('yahoo-finance');
 
@@ -32,12 +63,12 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
     }, (err: any, quotes: IStockQuotes) => {
       setDherStockQuotes(quotes)
       setStockPrice(quotes.price.regularMarketPrice);
-      console.log(quotes);
-      console.log('DHER Price : ' + quotes.price.regularMarketPrice)
-      console.log('DHER Price Time : ' + quotes.price.regularMarketTime.toString()) // Date type
-      console.log('DHER last percent : ' + quotes.price.regularMarketChangePercent)
     });
   }, [setStockPrice]);
+
+  const styles = useStyles({
+    stockPriceRatio: dherStockQuotes.price.regularMarketChangePercent
+  });
 
   useEffect(() => {
     fetchFinance();
@@ -45,15 +76,22 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
 
   return (
     <>
-      <br />
-      현재 주가 : {dherStockQuotes.price.regularMarketPrice} €
-      <br />
-      {numeral(dherStockQuotes.price.regularMarketChangePercent).format('0.00%')}
-      <br />
-      <Moment
-        date={dherStockQuotes.price.regularMarketTime}
-        format="yyyy년 M월 D일 HH:mm 기준"
-      />
+      <BlockTitle title="실시간 주가" />
+      <span className={styles.stockPrice}>
+        {dherStockQuotes.price.regularMarketPrice} €
+        <span className={styles.stockPriceUnit}>
+          {' (유로)'}
+        </span>
+      </span>
+      <div className={styles.stockPriceRatio}>
+        {renderPercentWithSign(dherStockQuotes.price.regularMarketChangePercent)}
+      </div>
+      <div className={styles.stockPriceDate}>
+        <Moment
+          date={dherStockQuotes.price.regularMarketTime}
+          format="yyyy년 M월 D일 HH:mm 기준"
+        />
+      </div>
     </>
   );
 }

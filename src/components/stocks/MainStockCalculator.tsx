@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import BaseUserStocks from './BaseUserStocks';
 import ExchangeRate from './ExchangeRate';
@@ -6,7 +6,22 @@ import StockInput from './StockInput';
 import StockPrice from './StockPrice';
 import StocksCurrentState from './StocksCurrentState';
 
+const useStyles = makeStyles(theme => ({
+  basicStyles: {
+    fontFamily: 'GmarketSans Medium',
+    fontSize: '1.2rem',
+    textAlign: 'right',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '1.5rem',
+      paddingRight: '3rem'
+    },
+    marginBottom: '10rem',
+  },
+}));
+
 const MainStockCalculator = () => {
+  const styles = useStyles();
+
   const [stocks, setStocks] = useState<number>(0);
   const [stockPrice, setStockPrice] = useState<number>(0);
   const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -32,7 +47,7 @@ const MainStockCalculator = () => {
         setStocks={setStocks}
       />
 
-      <Grid container spacing={1}>
+      <Grid container spacing={1} className={styles.basicStyles}>
         <Grid item xs={1} />
         <Grid item xs={10}>
           <StocksCurrentState

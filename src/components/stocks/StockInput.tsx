@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useCallback, useEffect, useState } from 'react';
 
+interface IStockInput {
+  stocks: number
+  setStocks: (number: number) => void
+}
+
 const useStyles = makeStyles({
   textField: {
     width: "100%",
@@ -22,11 +27,6 @@ const useStyles = makeStyles({
     }
   }
 });
-
-interface IStockInput {
-  stocks: number
-  setStocks: (number: number) => void
-}
 
 const StockInput = ({ stocks, setStocks }: IStockInput) => {
   const styles = useStyles();

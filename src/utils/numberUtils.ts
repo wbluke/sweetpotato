@@ -8,12 +8,22 @@ const renderComma = (number: number): string => {
   return numeral(number).format('0,0');
 }
 
+const renderCommaWithSign = (number: number): string => {
+  return numeral(number).format('+0,0');
+}
+
 const renderCommaFloat = (number: number): string => {
   return numeral(number).format('0,0.00');
+}
+
+const renderPercentWithSign = (number: number): string => {
+  return numeral(number).format('+0.00%');
 }
 
 export {
   roundFloat,
   renderComma,
-  renderCommaFloat
+  renderCommaWithSign,
+  renderCommaFloat,
+  renderPercentWithSign,
 }
