@@ -1,20 +1,13 @@
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, Theme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import BaseUserStocks from './BaseUserStocks';
-import ExchangeRate from './ExchangeRate';
-import StockInput from './StockInput';
-import StockPrice from './StockPrice';
-import StocksCurrentState from './StocksCurrentState';
-import logo from '../../images/woowa_sweet_potato_logo.png';
+import MainLogo from '../headers/MainLogo';
+import BaseUserStocks from '../stocks/BaseUserStocks';
+import ExchangeRate from '../stocks/ExchangeRate';
+import StockInput from '../stocks/StockInput';
+import StockPrice from '../stocks/StockPrice';
+import StocksCurrentState from '../stocks/StocksCurrentState';
 
-const useStyles = makeStyles(theme => ({
-  logoLayout: {
-    paddingBottom: '1rem',
-  },
-  logo: {
-    width: '10rem',
-    paddingBottom: '3rem',
-  },
+const useStyles = makeStyles((theme: Theme) => ({
   basicStyles: {
     fontFamily: 'GmarketSans Medium',
     fontSize: '1.2rem',
@@ -50,23 +43,7 @@ const MainStockCalculator = () => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-      >
-        <Grid item xs={1} />
-        <Grid item xs={10}>
-          <img
-            className={styles.logo}
-            src={logo}
-            alt={"logo"}
-          />
-        </Grid>
-        <Grid item xs={1} />
-      </Grid>
+      <MainLogo />
 
       <StockInput
         stocks={stocks}

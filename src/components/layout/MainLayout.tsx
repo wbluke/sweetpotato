@@ -1,11 +1,12 @@
 import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import MainStockCalculator from "../stocks/MainStockCalculator";
+import MainStockCalculator from "./MainStockCalculator";
 
 const useStyles = makeStyles({
   mainComponent: {
-    marginTop: '4rem'
+    marginTop: '4rem',
+    minWidth: '30rem',
   },
 });
 
@@ -16,7 +17,7 @@ const MainLayout = () => {
     <>
       <Container maxWidth="sm">
         <div className={styles.mainComponent}>
-        <MainStockCalculator />
+          <MainStockCalculator />
         </div>
       </Container>
     </>

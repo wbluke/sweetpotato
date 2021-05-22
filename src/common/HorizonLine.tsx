@@ -1,6 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 
+interface IHorizonLine {
+  padding: string
+}
+
 const useStyles = makeStyles({
   basicLineStyles: {
     width: "100%",
@@ -14,14 +18,18 @@ const useStyles = makeStyles({
   },
 });
 
-const HorizonLine = () => {
+const HorizonLine = ({padding}: IHorizonLine) => {
   const styles = useStyles();
 
   return (
-    <div className={styles.basicLineStyles}>
+    <div className={styles.basicLineStyles} style={{padding}}>
       <span className={styles.line} />
     </div>
   );
 };
+
+HorizonLine.defaultProps = {
+  padding: '0'
+}
 
 export default HorizonLine;
