@@ -62,6 +62,7 @@ const MainStockCalculator = () => {
           <img
             className={styles.logo}
             src={logo}
+            alt={"logo"}
           />
         </Grid>
         <Grid item xs={1} />

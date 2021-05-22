@@ -1,9 +1,7 @@
 import { makeStyles } from '@material-ui/core';
-import numeral from 'numeral';
 import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
-import HorizonLine from '../../common/HorizonLine';
 import { renderPercentWithSign } from '../../utils/numberUtils';
 
 interface IStockPrice {
