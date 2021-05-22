@@ -1,7 +1,7 @@
 import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import React, { useCallback, useEffect, useState } from 'react';
+import TextField, { TextFieldProps } from '@material-ui/core/TextField';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface IStockInput {
   stocks: number
@@ -30,8 +30,11 @@ const useStyles = makeStyles({
 
 const StockInput = ({ stocks, setStocks }: IStockInput) => {
   const styles = useStyles();
+  const textInput = useRef<TextFieldProps>();
 
   const [numberOfStocks, setNumberOfStocks] = useState<number>(stocks);
+
+  const error = numberOfStocks.toString().length > 4;
 
   const onStockValue = (numberOfStocks: number) => {
     return numberOfStocks > 0 ? numberOfStocks : '';
@@ -39,11 +42,22 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
 
   const onInputStocks = (event: React.ChangeEvent<HTMLInputElement>) => {
     const stockValue = parseInt(event.target.value);
+    if (Number.isNaN(stockValue)) {
+      setNumberOfStocks(0);
+      if (textInput.current) {
+        textInput.current.value = "";
+      }
+      return;
+    }
 
     setNumberOfStocks(stockValue);
   }
 
   const onClickStockButton = () => {
+    if (error) {
+      return;
+    }
+
     setStocks(numberOfStocks);
     window.history.replaceState({}, '', "?stocks=" + numberOfStocks);
   }
@@ -56,7 +70,6 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
     refreshNumberOfStocks();
   }, [stocks, refreshNumberOfStocks]);
 
-  // todo : 음수, 자릿수 4 체크 / TextField => error, helperText
   return (
     <>
       <Grid container spacing={1}>
@@ -64,14 +77,16 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
         <Grid item xs={7}>
           <TextField
             className={styles.textField}
+            inputRef={textInput}
             value={onStockValue(numberOfStocks)}
             onChange={onInputStocks}
             label="심은 고구마 수"
             variant="outlined"
             size="small"
             type="number"
+            error={error}
+            helperText={error ? "최대 4자리 숫자로 입력해 주세요" : ""}
           />
-          {/* 🍠 */}
         </Grid>
         <Grid item xs={3}>
           <Button
