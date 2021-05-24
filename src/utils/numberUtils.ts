@@ -33,7 +33,7 @@ const renderPercentWithSign = (number: number | string): string => {
     return number;
   }
 
-  return numeral(number).format('+0.00%');
+  return numeral(number).format('+0.00') + '%';
 }
 
 const renderZeroToDash = (number: number) => {

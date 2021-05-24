@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import $ from "jquery";
 import React, { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
@@ -55,13 +56,34 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
   });
 
   const fetchFinance = useCallback(() => {
-    yahooFinance.quote({
-      symbol: 'DHER.DE',
-      modules: ['price']
-    }, (err: any, quotes: IStockQuotes) => {
-      setDherStockQuotes(quotes)
-      setStockPrice(quotes.price.regularMarketPrice);
+    // CORS Issues
+
+    // yahooFinance.quote({
+    //   symbol: 'DHER.DE',
+    //   modules: ['price']
+    // }, (err: any, quotes: IStockQuotes) => {
+    //   console.log(quotes);
+    //   setDherStockQuotes(quotes)
+    //   setStockPrice(quotes.price.regularMarketPrice);
+    // });
+
+    $.getJSON('http://api.allorigins.win/get?url=https%3A//finance.yahoo.com/quote/DHER.DE/history&callback=?', function (data) {
+      const splittedQuoteStore = data.contents.split('QuoteSummaryStore')[1].split('"price"')[1];
+
+      const regularMarketChangePercent = parseFloat(splittedQuoteStore.split('"regularMarketChangePercent"')[1].split('"fmt":"')[1].split('%')[0]);
+      const regularMarketTime = new Date(parseInt(splittedQuoteStore.split('"regularMarketTime":')[1].split(',')[0]) * 1000);
+      const regularMarketPrice = parseFloat(splittedQuoteStore.split('"regularMarketPrice"')[1].split('"fmt":"')[1].split('"')[0]);
+
+      setDherStockQuotes({
+        price: {
+          regularMarketChangePercent,
+          regularMarketTime,
+          regularMarketPrice
+        }
+      })
+      setStockPrice(regularMarketPrice);
     });
+
   }, [setStockPrice]);
 
   const styles = useStyles({
