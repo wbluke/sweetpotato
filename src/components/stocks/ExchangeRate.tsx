@@ -36,15 +36,22 @@ const useStyles = makeStyles({
 const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
   const styles = useStyles();
 
+  const replaceDateFormat = (date: Date) => {
+    return new Date(date.toString().replace(/-/g, "/"));
+  }
+
   const [eurExchangeRate, setEurExchangeRate] = useState<IExchangeRateInfo>({
-    date: new Date(),
+    date: replaceDateFormat(new Date()),
     rate: 0
   });
 
   const fetchExchangeRate = useCallback(() => {
     request.get('https://api.manana.kr/exchange/rate/KRW/EUR.json')
       .then(({ data }: AxiosResponse<IExchangeRateInfo[]>) => {
-        setEurExchangeRate(data[0]);
+        setEurExchangeRate({
+          date: replaceDateFormat(data[0].date),
+          rate: data[0].rate
+        })
         setExchangeRate(roundFloat(data[0].rate));
       })
   }, [setExchangeRate]);
