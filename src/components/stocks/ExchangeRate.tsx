@@ -10,9 +10,13 @@ interface IExchangeRate {
   setExchangeRate: (exchangeRate: number) => void
 }
 
-interface IExchangeRateInfo {
+interface IExchangeRateItem {
   date: Date
   rate: number
+}
+
+interface IExchangeRateInfo {
+  contents: string
 }
 
 const useStyles = makeStyles({
@@ -40,19 +44,21 @@ const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
     return new Date(date.toString().replace(/-/g, "/"));
   }
 
-  const [eurExchangeRate, setEurExchangeRate] = useState<IExchangeRateInfo>({
+  const [eurExchangeRate, setEurExchangeRate] = useState<IExchangeRateItem>({
     date: replaceDateFormat(new Date()),
     rate: 0
   });
 
   const fetchExchangeRate = useCallback(() => {
-    request.get('https://api.manana.kr/exchange/rate/KRW/EUR.json')
-      .then(({ data }: AxiosResponse<IExchangeRateInfo[]>) => {
+    request.get('http://api.allorigins.win/get?url=https://api.manana.kr/exchange/rate/KRW/EUR.json')
+      .then(({ data: { contents } }: AxiosResponse<IExchangeRateInfo>) => {
+        const results = JSON.parse(contents);
+
         setEurExchangeRate({
-          date: replaceDateFormat(data[0].date),
-          rate: data[0].rate
+          date: replaceDateFormat(results[0].date),
+          rate: results[0].rate
         })
-        setExchangeRate(roundFloat(data[0].rate));
+        setExchangeRate(roundFloat(results[0].rate));
       })
   }, [setExchangeRate]);
 
