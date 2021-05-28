@@ -1,21 +1,17 @@
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import koLocale from "date-fns/locale/ko";
 import React from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: 'GmarketSans Medium',
-  },
-});
-
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={koLocale}>
     <App />
-  </MuiThemeProvider>
+  </MuiPickersUtilsProvider>
   , document.getElementById('root')
 );
 
