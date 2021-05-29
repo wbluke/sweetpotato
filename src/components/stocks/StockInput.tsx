@@ -1,16 +1,9 @@
 import { Button, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { TextFieldProps } from '@material-ui/core/TextField';
+import { DatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { lightBlue } from "@material-ui/core/colors";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { DatePicker } from "@material-ui/pickers";
-// import { MuiPickersComponentsToClassName } from '@material-ui/pickers/src/typings/overrides';
-
-// declare module '@material-ui/core/styles/overrides' {
-//   export interface ComponentNameToClassKey extends MuiPickersComponentsToClassName {}
-// }
 
 interface IStockInput {
   stocks: number
@@ -41,34 +34,51 @@ const materialTheme = createMuiTheme({
   overrides: {
     MuiPickersToolbar: {
       toolbar: {
-        backgroundColor: lightBlue.A200,
+        backgroundColor: "#2BC1BC",
       },
     },
-    MuiPickersCalendarHeader: {
-      switchHeader: {
-        // backgroundColor: lightBlue.A200,
-        // color: "white",
-      },
+    MuiTypography: {
+      colorPrimary: {
+        color: "#2BC1BC"
+      }
     },
-    MuiPickersDay: {
-      day: {
-        color: lightBlue.A700,
-      },
-      daySelected: {
-        backgroundColor: lightBlue["400"],
-      },
-      dayDisabled: {
-        color: lightBlue["100"],
-      },
-      current: {
-        color: lightBlue["900"],
-      },
+    MuiButton: {
+      textPrimary: {
+        color: "#2BC1BC"
+      }
     },
-    MuiPickersModal: {
-      dialogAction: {
-        color: lightBlue["400"],
+    MuiPickersMonth: {
+      monthSelected: {
+        color: "#2BC1BC"
       },
+      root: {
+        "&:focus": {
+          color: "#2BC1BC"
+        },
+      }
     },
+    MuiFormControl: {
+      root: {
+        marginLeft: "1.5rem"
+      }
+    },
+    MuiOutlinedInput: {
+      root: {
+        fontFamily: "GmarketSans Medium",
+        width: "18rem",
+      },
+      input: {
+        height: "0.3rem"
+      }
+    },
+    MuiInputLabel: {
+      outlined: {
+        fontFamily: "GmarketSans Medium",
+        '&$shrink': {
+          transform: "translate(12px, -6px) scale(0.75)"
+        },
+      }
+    }
   },
 });
 
@@ -128,51 +138,20 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
       <Grid container spacing={1}>
         <Grid item xs={1} />
         <Grid item xs={7}>
-        <ThemeProvider theme={materialTheme}>
-          <DatePicker
-            format="yyyy년 M월"
-            views={["year", "month"]}
-            label="입사연월"
-            helperText="With min and max"
-            minDate={new Date("2010/06")}
-            maxDate={new Date("2021/02")}
-            value={selectedDate}
-            onChange={handleDateChange}
-            inputVariant="outlined"
-          />
+          <ThemeProvider theme={materialTheme}>
+            <DatePicker
+              format="🗓  yyyy년 M월"
+              views={["year", "month"]}
+              label="입사연월"
+              minDate={new Date("2010/06")}
+              maxDate={new Date("2021/02")}
+              value={selectedDate}
+              onChange={handleDateChange}
+              inputVariant="outlined"
+              okLabel="선택"
+              cancelLabel="취소"
+            />
           </ThemeProvider>
-          {/* <DatePicker
-            // locale={ko}
-            // selected={startDate}
-            // onChange={(date: Date) => setStartDate(date)}
-            // dateFormat="yyyy년 M월"
-            // showMonthYearPicker
-            // closeOnScroll={true}
-            minDate={new Date("2010/06")}
-            maxDate={new Date("2021/12")}
-            // popperModifiers={{
-            //   preventOverflow: {
-            //     enabled: true,
-            //   },
-            // }}
-          /> */}
-          {/* <DatePicker
-            locale={ko}
-            dateFormat="yyyy-MM-dd"
-            className="form-control"
-            closeOnScroll={true}
-            popperClassName="custom-date-picker"
-            popperPlacement="top"
-            fixedHeight
-            popperModifiers={{
-              offset: {
-                enabled: true,
-                offset: "5px, 10px"
-              },
-            }}
-            selected={moment(date).toDate()}
-            onChange={(date: Date) => setDate(dateToString(date))}
-          /> */}
 
           {/* <TextField
             className={styles.textField}
