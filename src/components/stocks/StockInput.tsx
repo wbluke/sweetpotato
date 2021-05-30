@@ -1,9 +1,8 @@
 import { Button, Grid } from '@material-ui/core';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { TextFieldProps } from '@material-ui/core/TextField';
 import { DatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 interface IStockInput {
   stocks: number
@@ -19,7 +18,7 @@ const useStyles = makeStyles({
   button: {
     width: "100%",
     maxWidth: "90px",
-    margin: '0 0 0 1px',
+    margin: '0 0 0 -3px',
     color: '#FFFFFF',
     backgroundColor: '#2BC1BC',
     "&:hover": {
@@ -84,54 +83,15 @@ const materialTheme = createMuiTheme({
 
 const StockInput = ({ stocks, setStocks }: IStockInput) => {
   const styles = useStyles();
-  const textInput = useRef<TextFieldProps>();
 
-  const [numberOfStocks, setNumberOfStocks] = useState<number>(stocks);
-  const [startDate, setStartDate] = useState(new Date());
-
-  const error = numberOfStocks.toString().length > 4;
-
-  const onStockValue = (numberOfStocks: number) => {
-    return numberOfStocks > 0 ? numberOfStocks : '';
-  }
-
-  const onInputStocks = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const stockValue = parseInt(event.target.value);
-    if (Number.isNaN(stockValue)) {
-      setNumberOfStocks(0);
-      if (textInput.current) {
-        textInput.current.value = "";
-      }
-      return;
-    }
-
-    setNumberOfStocks(stockValue);
-  }
-
-  const onInputKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
-      onClickStockButton();
-    }
-  }
+  const [selectedDate, setSelctedDate] = useState<MaterialUiPickersDate>(new Date("2021/02"));
 
   const onClickStockButton = () => {
-    if (error) {
-      return;
-    }
+    // todo : calculate number of stocks
 
-    setStocks(numberOfStocks);
-    window.history.replaceState({}, '', "?stocks=" + numberOfStocks);
+    // setStocks(numberOfStocks);
+    // window.history.replaceState({}, '', "?stocks=" + numberOfStocks);
   }
-
-  const refreshNumberOfStocks = useCallback(() => {
-    setNumberOfStocks(stocks);
-  }, [stocks]);
-
-  useEffect(() => {
-    refreshNumberOfStocks();
-  }, [stocks, refreshNumberOfStocks]);
-
-  const [selectedDate, handleDateChange] = useState<MaterialUiPickersDate>(new Date("2021/02"));
 
   return (
     <>
@@ -146,26 +106,12 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
               minDate={new Date("2010/06")}
               maxDate={new Date("2021/02")}
               value={selectedDate}
-              onChange={handleDateChange}
+              onChange={setSelctedDate}
               inputVariant="outlined"
               okLabel="선택"
               cancelLabel="취소"
             />
           </ThemeProvider>
-
-          {/* <TextField
-            className={styles.textField}
-            inputRef={textInput}
-            value={onStockValue(numberOfStocks)}
-            onChange={onInputStocks}
-            label="심은 고구마 수"
-            variant="outlined"
-            size="small"
-            type="number"
-            error={error}
-            helperText={error ? "최대 4자리 숫자로 입력해 주세요" : ""}
-            onKeyDown={onInputKeyDown}
-          /> */}
         </Grid>
         <Grid item xs={3}>
           <Button
