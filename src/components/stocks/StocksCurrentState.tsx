@@ -37,6 +37,10 @@ const useStyles = makeStyles({
     fontSize: '0.9rem',
     paddingRight: '0.5rem',
   },
+  sweetPotato: {
+    marginTop: '0.7rem',
+    fontSize: '0.9rem',
+  },
 });
 
 const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksValue }: IStocksCurrentState) => {
@@ -75,6 +79,12 @@ const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksVa
         <span className={styles.differenceUnit}>
           {' 원'}
         </span>
+      </div>
+
+      <div className={styles.sweetPotato}>
+        <b>
+        {`고구마 ${stocks} 개`}
+        </b>
       </div>
     </>
   );
