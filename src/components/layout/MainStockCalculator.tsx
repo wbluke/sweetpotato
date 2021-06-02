@@ -26,15 +26,17 @@ const MainStockCalculator = () => {
   const [stocks, setStocks] = useState<number>(0);
   const [stockPrice, setStockPrice] = useState<number>(0);
   const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [dateParam, setDateParam] = useState<Date>(new Date());
 
   const [baseUserStocksValue, setBaseUserStocksValue] = useState<number>(0);
 
   const findStocksFromQueryString = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const stockValue = urlParams.get('stocks');
+    const yearMonth = urlParams.get('yearMonth') as string;
+    const formattedYearMonth = yearMonth ? yearMonth.replace('-', '/') : '2021/02';
 
-    const stocks = parseInt(stockValue ? stockValue : '0');
-    setStocks(stocks);
+    const dateParam = new Date(formattedYearMonth);
+    setDateParam(dateParam);
   }
 
   useEffect(() => {
@@ -46,8 +48,8 @@ const MainStockCalculator = () => {
       <MainLogo />
 
       <StockInput
-        stocks={stocks}
         setStocks={setStocks}
+        dateParam={dateParam}
       />
 
       <Grid container spacing={1} className={styles.basicStyles}>

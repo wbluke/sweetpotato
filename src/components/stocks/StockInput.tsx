@@ -2,12 +2,12 @@ import { Button, Grid } from '@material-ui/core';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { DatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import React, { useState } from 'react';
-import { monthDiff } from '../../utils/dateUtils';
+import React, { useEffect, useState } from 'react';
+import { isSameYearMonth, monthDiff } from '../../utils/dateUtils';
 
 interface IStockInput {
-  stocks: number
   setStocks: (number: number) => void
+  dateParam: Date
 }
 
 const useStyles = makeStyles({
@@ -82,34 +82,56 @@ const materialTheme = createMuiTheme({
   },
 });
 
-const StockInput = ({ stocks, setStocks }: IStockInput) => {
+const StockInput = ({ setStocks, dateParam }: IStockInput) => {
   const styles = useStyles();
 
   const [selectedDate, setSelctedDate] = useState<MaterialUiPickersDate>(new Date("2021/02"));
 
-  const onClickStockButton = () => {
-    if (!selectedDate) {
+  const onRender = () => {
+    if (isSameYearMonth(dateParam, new Date())) {
+      setSelctedDate(new Date("2021/02"));
+      return;
+    }
+
+    setSelctedDate(dateParam)
+
+    if (invalidateDateRange(dateParam)) {
+      setStocks(0);
+      return;
+    }
+
+    onClickStockButton(dateParam);
+  }
+
+  const onClickStockButton = (targetDate: Date | MaterialUiPickersDate) => {
+    if (!targetDate) {
+      setStocks(0);
+      return;
+    }
+
+    if (invalidateDateRange(targetDate)) {
+      setStocks(0);
       return;
     }
 
     const baseWonPerStock = 143208;
-    const numberOfStocks = Math.floor(calculateTotalStockPrices() / baseWonPerStock);
+    const numberOfStocks = Math.floor(calculateTotalStockPrices(targetDate) / baseWonPerStock);
 
     setStocks(numberOfStocks);
 
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth() + 1;
+    const year = targetDate.getFullYear();
+    const month = targetDate.getMonth() + 1;
     const formattedMonth = ("0" + month).slice(-2);
 
     window.history.replaceState({}, '', `?yearMonth=${year}-${formattedMonth}`);
   }
 
-  const calculateTotalStockPrices = (): number => {
-    if (!selectedDate) {
+  const calculateTotalStockPrices = (targetDate: Date | MaterialUiPickersDate): number => {
+    if (!targetDate) {
       return 0;
     }
 
-    const year = selectedDate.getFullYear();
+    const year = targetDate.getFullYear();
     if (year === 2021) {
       return 20000000;
     }
@@ -118,9 +140,25 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
       return 30000000;
     }
 
-    const differenceOfMonth = monthDiff(selectedDate, new Date("2019/12"));
+    const differenceOfMonth = monthDiff(targetDate, new Date("2019/12"));
     return 50000000 + 800000 * differenceOfMonth;
   }
+
+  const invalidateDateRange = (targetDate: Date): boolean => {
+    if (monthDiff(new Date("2021/02"), targetDate) >= 1) {
+      return true;
+    }
+
+    if (monthDiff(targetDate, new Date("2010/06")) >= 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  useEffect(() => {
+    onRender();
+  }, [dateParam]);
 
   return (
     <>
@@ -139,13 +177,16 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
               inputVariant="outlined"
               okLabel="선택"
               cancelLabel="취소"
+              invalidDateMessage="정확한 값을 선택해 주세요"
+              minDateMessage="2010년 6월 이후만 가능합니다"
+              maxDateMessage="2021년 2월 이전만 가능합니다"
             />
           </ThemeProvider>
         </Grid>
         <Grid item xs={3}>
           <Button
             className={styles.button}
-            onClick={onClickStockButton}
+            onClick={() => onClickStockButton(selectedDate)}
             size="large"
           >
             ⛏️ 캐기
