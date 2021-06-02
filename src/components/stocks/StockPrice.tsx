@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   },
 });
 
-const yahooFinance = require('yahoo-finance');
+// const yahooFinance = require('yahoo-finance');
 
 const StockPrice = ({ setStockPrice }: IStockPrice) => {
   const [dherStockQuotes, setDherStockQuotes] = useState<IStockQuotes>({

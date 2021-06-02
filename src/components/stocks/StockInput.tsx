@@ -3,6 +3,7 @@ import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/sty
 import { DatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState } from 'react';
+import { monthDiff } from '../../utils/dateUtils';
 
 interface IStockInput {
   stocks: number
@@ -87,10 +88,38 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
   const [selectedDate, setSelctedDate] = useState<MaterialUiPickersDate>(new Date("2021/02"));
 
   const onClickStockButton = () => {
-    // todo : calculate number of stocks
+    if (!selectedDate) {
+      return;
+    }
 
-    // setStocks(numberOfStocks);
-    // window.history.replaceState({}, '', "?stocks=" + numberOfStocks);
+    const baseWonPerStock = 143208;
+    const numberOfStocks = Math.floor(calculateTotalStockPrices() / baseWonPerStock);
+
+    setStocks(numberOfStocks);
+
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1;
+    const formattedMonth = ("0" + month).slice(-2);
+
+    window.history.replaceState({}, '', `?yearMonth=${year}-${formattedMonth}`);
+  }
+
+  const calculateTotalStockPrices = (): number => {
+    if (!selectedDate) {
+      return 0;
+    }
+
+    const year = selectedDate.getFullYear();
+    if (year === 2021) {
+      return 20000000;
+    }
+
+    if (year === 2020) {
+      return 30000000;
+    }
+
+    const differenceOfMonth = monthDiff(selectedDate, new Date("2019/12"));
+    return 50000000 + 800000 * differenceOfMonth;
   }
 
   return (
@@ -102,7 +131,7 @@ const StockInput = ({ stocks, setStocks }: IStockInput) => {
             <DatePicker
               format="🗓  yyyy년 M월"
               views={["year", "month"]}
-              label="입사연월"
+              label="입사 연월"
               minDate={new Date("2010/06")}
               maxDate={new Date("2021/02")}
               value={selectedDate}
