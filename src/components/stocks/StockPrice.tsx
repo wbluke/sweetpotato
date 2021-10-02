@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   },
 });
 
-// const yahooFinance = require('yahoo-finance');
+const yahooFinance = require('yahoo-finance');
 
 const StockPrice = ({ setStockPrice }: IStockPrice) => {
   const [dherStockQuotes, setDherStockQuotes] = useState<IStockQuotes>({
@@ -56,8 +56,6 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
   });
 
   const fetchFinance = useCallback(() => {
-    // CORS Issues
-
     // yahooFinance.quote({
     //   symbol: 'DHER.DE',
     //   modules: ['price']
@@ -66,6 +64,11 @@ const StockPrice = ({ setStockPrice }: IStockPrice) => {
     //   setDherStockQuotes(quotes)
     //   setStockPrice(quotes.price.regularMarketPrice);
     // });
+
+    // CORS Issues
+
+    // https://finance.yahoo.com
+    // https://zb7bwm0d47.execute-api.ap-northeast-2.amazonaws.com/prod/quote/DHER.DE/history
 
     $.getJSON('http://api.allorigins.win/get?url=https%3A//finance.yahoo.com/quote/DHER.DE/history&callback=?', function (data) {
       const splittedQuoteStore = data.contents.split('QuoteSummaryStore')[1].split('"price"')[1];
