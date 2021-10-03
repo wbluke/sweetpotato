@@ -1,5 +1,5 @@
-import { Grid, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import {Grid, makeStyles} from '@material-ui/core';
+import React, {useState} from 'react';
 import infoButton from '../../images/info_button.png';
 import infoButtonHover from '../../images/info_button_hover.png';
 import logo from '../../images/woowa_sweet_potato_logo.png';
@@ -43,7 +43,7 @@ const MainLogo = () => {
         alignItems="center"
         justify="center"
       >
-        <Grid item xs={1} />
+        <Grid item xs={1}/>
         <Grid item xs={10}>
           <img
             className={styles.logo}
@@ -64,7 +64,7 @@ const MainLogo = () => {
             alt={"light"}
           />
         </Grid>
-        <Grid item xs={1} />
+        <Grid item xs={1}/>
       </Grid>
 
       <InformationModal

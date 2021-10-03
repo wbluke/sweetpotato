@@ -1,4 +1,4 @@
-import { Backdrop, createStyles, Fade, makeStyles, Modal, Theme } from '@material-ui/core';
+import {Backdrop, createStyles, Fade, makeStyles, Modal, Theme} from '@material-ui/core';
 import React from 'react';
 import HorizonLine from '../../common/HorizonLine';
 import modalTitleImage from '../../images/mei.png';
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const InformationModal = ({ open, setOpen }: IInformationModal) => {
+const InformationModal = ({open, setOpen}: IInformationModal) => {
   const styles = useStyles();
 
   const handleClose = () => {

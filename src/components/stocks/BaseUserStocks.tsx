@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core';
-import React, { useCallback, useEffect } from 'react';
+import {makeStyles} from '@material-ui/core';
+import React, {useCallback, useEffect} from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
-import { renderComma, roundFloat } from '../../utils/numberUtils';
+import {renderComma, roundFloat} from '../../utils/numberUtils';
 
 interface IUserStocks {
   stocks: number
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-const BaseUserStocks = ({ stocks, setBaseUserStocksValue }: IUserStocks) => {
+const BaseUserStocks = ({stocks, setBaseUserStocksValue}: IUserStocks) => {
   const styles = useStyles();
 
   const baseStockPrice = 105.95;
@@ -54,7 +54,7 @@ const BaseUserStocks = ({ stocks, setBaseUserStocksValue }: IUserStocks) => {
 
   return (
     <>
-      <BlockTitle title="기준 정보" />
+      <BlockTitle title="기준 정보"/>
       <div>
         <span className={styles.baseStockPrice}>
           {renderComma(stocks * baseWonPerStock)}

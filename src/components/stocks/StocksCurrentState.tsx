@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 import React from 'react';
 import BlockTitle from '../../common/BlockTitle';
-import { renderComma, renderCommaWithSign, renderZeroToDash } from '../../utils/numberUtils';
+import {renderComma, renderCommaWithSign, renderZeroToDash} from '../../utils/numberUtils';
 
 interface IStocksCurrentState {
   stocks: number
@@ -37,13 +37,9 @@ const useStyles = makeStyles({
     fontSize: '0.9rem',
     paddingRight: '0.5rem',
   },
-  sweetPotato: {
-    marginTop: '0.7rem',
-    fontSize: '0.9rem',
-  },
 });
 
-const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksValue }: IStocksCurrentState) => {
+const StocksCurrentState = ({stocks, stockPrice, exchangeRate, baseUserStocksValue}: IStocksCurrentState) => {
   const calculateCurrentStocksValue = () => {
     return stocks * stockPrice * exchangeRate;
   }
@@ -63,7 +59,7 @@ const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksVa
 
   return (
     <>
-      <BlockTitle title="현재 자산" />
+      <BlockTitle title="현재 자산"/>
       <span className={styles.currentStocksValueAmounts}>
         {renderComma(renderZeroToDash(calculateCurrentStocksValue()))}
       </span>
@@ -79,12 +75,6 @@ const StocksCurrentState = ({ stocks, stockPrice, exchangeRate, baseUserStocksVa
         <span className={styles.differenceUnit}>
           {' 원'}
         </span>
-      </div>
-
-      <div className={styles.sweetPotato}>
-        <b>
-        {`고구마 ${stocks} 개`}
-        </b>
       </div>
     </>
   );

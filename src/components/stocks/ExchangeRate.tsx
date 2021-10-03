@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core';
-import { AxiosResponse } from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import {makeStyles} from '@material-ui/core';
+import {AxiosResponse} from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
 import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
 import request from '../../utils/httpRequest';
-import { renderCommaFloat, renderZeroToDash, roundFloat } from '../../utils/numberUtils';
+import {renderCommaFloat, renderZeroToDash, roundFloat} from '../../utils/numberUtils';
 
 interface IExchangeRate {
   setExchangeRate: (exchangeRate: number) => void
@@ -13,10 +13,6 @@ interface IExchangeRate {
 interface IExchangeRateItem {
   date: Date
   rate: number
-}
-
-interface IExchangeRateInfo {
-  contents: string
 }
 
 const useStyles = makeStyles({
@@ -37,7 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
+const ExchangeRate = ({setExchangeRate}: IExchangeRate) => {
   const styles = useStyles();
 
   const replaceDateFormat = (date: Date) => {
@@ -50,10 +46,8 @@ const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
   });
 
   const fetchExchangeRate = useCallback(() => {
-    request.get('http://api.allorigins.win/get?url=https://api.manana.kr/exchange/rate/KRW/EUR.json')
-      .then(({ data: { contents } }: AxiosResponse<IExchangeRateInfo>) => {
-        const results = JSON.parse(contents);
-
+    request.get('https://72ijgyrhmf.execute-api.ap-northeast-2.amazonaws.com/prod/exchange/rate/KRW/EUR.json')
+      .then(({data: results}: AxiosResponse<IExchangeRateItem[]>) => {
         setEurExchangeRate({
           date: replaceDateFormat(results[0].date),
           rate: results[0].rate
@@ -68,7 +62,7 @@ const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
 
   return (
     <>
-      <BlockTitle title="실시간 환율" />
+      <BlockTitle title="실시간 환율"/>
       <span className={styles.exchangeRateText}>
         {'1€(유로) 당 '}
       </span>
@@ -78,7 +72,7 @@ const ExchangeRate = ({ setExchangeRate }: IExchangeRate) => {
           {' 원'}
         </span>
       </span>
-      <br />
+      <br/>
       <div className={styles.exchangeRateDate}>
         <Moment
           date={new Date(eurExchangeRate.date)}
