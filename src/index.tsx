@@ -2,7 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import koLocale from "date-fns/locale/ko";
 import React from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';

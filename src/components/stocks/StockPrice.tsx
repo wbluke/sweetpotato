@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import BlockTitle from '../../common/BlockTitle';
 import {renderPercentWithSign, renderZeroToDash} from '../../utils/numberUtils';
 import request from "../../utils/httpRequest";
+import * as cheerio from 'cheerio';
 
 interface IStockPrice {
   setStockPrice: (stockPrice: number) => void
@@ -54,13 +55,41 @@ const StockPrice = ({setStockPrice}: IStockPrice) => {
   });
 
   const fetchFinance = useCallback(() => {
-    request.get('https://zb7bwm0d47.execute-api.ap-northeast-2.amazonaws.com/prod/quote/DHER.DE/history')
-      .then(({data}: any) => {
-        const splittedQuoteStore = data.split('QuoteSummaryStore')[1].split('"price"')[1];
+    /**
+     * yahoo-finance crawling
+     */
+    // request.get('https://zb7bwm0d47.execute-api.ap-northeast-2.amazonaws.com/prod/quote/DHER.DE/history')
+    //   .then(({data}: any) => {
+    //     const splittedQuoteStore = data.split('QuoteSummaryStore')[1].split('"price"')[1];
+    //
+    //     const regularMarketChangePercent = parseFloat(splittedQuoteStore.split('"regularMarketChangePercent"')[1].split('"fmt":"')[1].split('%')[0]);
+    //     const regularMarketTime = new Date(parseInt(splittedQuoteStore.split('"regularMarketTime":')[1].split(',')[0]) * 1000);
+    //     const regularMarketPrice = parseFloat(splittedQuoteStore.split('"regularMarketPrice"')[1].split('"fmt":"')[1].split('"')[0]);
+    //
+    //     setDherStockQuotes({
+    //       price: {
+    //         regularMarketChangePercent,
+    //         regularMarketTime,
+    //         regularMarketPrice
+    //       }
+    //     })
+    //     setStockPrice(regularMarketPrice);
+    //   })
 
-        const regularMarketChangePercent = parseFloat(splittedQuoteStore.split('"regularMarketChangePercent"')[1].split('"fmt":"')[1].split('%')[0]);
-        const regularMarketTime = new Date(parseInt(splittedQuoteStore.split('"regularMarketTime":')[1].split(',')[0]) * 1000);
-        const regularMarketPrice = parseFloat(splittedQuoteStore.split('"regularMarketPrice"')[1].split('"fmt":"')[1].split('"')[0]);
+    /**
+     * investing.com crawling
+     */
+    request.get('https://fsgtimcehh.execute-api.ap-northeast-2.amazonaws.com/prod/equities/delivery-hero-ag')
+      .then(({data}: any) => {
+        const $ = cheerio.load(data)
+
+        const regularMarketPrice = parseFloat($("span[data-test=instrument-price-last]").text())
+        const regularMarketChangePercent = parseFloat($("span[data-test=instrument-price-change-percent]").text().split(/[()]/)[1].split('%')[0])
+
+        const time = ($("time")[0].children[0] as any).data // hh:mm:ss
+        const today = new Date();
+        const temp = time.split(":")
+        const regularMarketTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), temp[0], temp[1], temp[2]);
 
         setDherStockQuotes({
           price: {
